@@ -1,22 +1,21 @@
-import { randomUUID } from "crypto";
+import { randomUUID } from 'crypto';
 
 export class UniqueId {
-    private readonly value : string; //immutable
+  private readonly value: string; //immutable
 
-    constructor(id?:string) {
-        this.value = id ?? randomUUID();
-    }
+  constructor(id?: string) {
+    this.value = id ?? randomUUID();
+  }
 
-    getValue():string {
-        return this.value;
-    }
+  getValue(): string {
+    return this.value;
+  }
 
-    equals(other:UniqueId) {
-        return this.value === other.value
-    }
+  equals(other: UniqueId) {
+    return this.value === other.value;
+  }
 
-    toString():string {
-        return this.value;
-    }
-
+  toString(): string {
+    return this.value;
+  }
 }

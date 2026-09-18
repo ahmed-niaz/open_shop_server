@@ -15,9 +15,9 @@ export const DrizzleProvider = {
       configService.getOrThrow<string>('POSTGRES_DB_URL');
 
     const client = postgres(connectionString);
-    const db = drizzle(client, {});
-    await db.execute(sql`SELECT 1`);
+    const pgdb = drizzle(client, {});
+    await pgdb.execute(sql`SELECT 1`);
 
-    return db;
+    return pgdb;
   },
 };
