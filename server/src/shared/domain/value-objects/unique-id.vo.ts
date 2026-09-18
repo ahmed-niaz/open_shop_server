@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 
 export class UniqueId {
-  private readonly value: string; //immutable or it can be changed
+  private readonly value: string; //immutable
 
   constructor(id?: string) {
     this.value = id ?? randomUUID();
