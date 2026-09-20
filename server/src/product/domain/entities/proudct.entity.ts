@@ -10,7 +10,7 @@ export interface ProudctProps {
   description: string;
   sku: SKU;
   stock: number;
-  isActivate: boolean;
+  isActive: boolean;
   lowStockThreshold: number;
   createdAt: Date;
   updatedAt: Date;
@@ -23,7 +23,7 @@ export class Product extends AggregateRoot {
   private _description: string;
   private _sku: SKU;
   private _stock: number;
-  private _isActivate: boolean;
+  private _isActive: boolean;
   private _lowStockThreshold: number;
   private _createdAt: Date;
   private _updatedAt: Date;
@@ -36,7 +36,7 @@ export class Product extends AggregateRoot {
     this._description = props.description;
     this._sku = props.sku;
     this._stock = props.stock;
-    this._isActivate = props.isActivate;
+    this._isActive = props.isActive;
     this._lowStockThreshold = props.lowStockThreshold;
     this._createdAt = props.createdAt;
     this._updatedAt = props.updatedAt;
@@ -62,7 +62,7 @@ export class Product extends AggregateRoot {
       sku: SKU.create(sku),
       price,
       stock,
-      isActivate: true,
+      isActive: true,
       lowStockThreshold: 10,
       createdAt: now,
       updatedAt: now,
@@ -88,8 +88,8 @@ export class Product extends AggregateRoot {
   get stock() {
     return this._stock;
   }
-  get isActivate() {
-    return this._isActivate;
+  get isActive() {
+    return this._isActive;
   }
   get lowStockThreshold() {
     return this._lowStockThreshold;

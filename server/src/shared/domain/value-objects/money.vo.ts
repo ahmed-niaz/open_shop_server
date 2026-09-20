@@ -5,7 +5,7 @@ export class Money {
     private readonly currency: string,
   ) {}
 
-  static create(amount: number, currency: string = 'BDT'): Money {
+  static create(amount: number, currency: string = 'USD'): Money {
     if (amount < 0) {
       throw new Error('the ammount of money cannot be negative');
     }
@@ -20,5 +20,9 @@ export class Money {
 
   getCurrency(): string {
     return this.currency;
+  }
+
+  toCents(): number {
+    return Math.round(this.amount * 100);
   }
 }
