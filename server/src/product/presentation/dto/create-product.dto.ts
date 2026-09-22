@@ -1,5 +1,4 @@
 import {
-  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
@@ -11,17 +10,17 @@ import {
 
 export class CreateProductDto {
   @IsString()
-  @IsNotEmpty()
+  @MinLength(2)
+  @MaxLength(100)
   name: string;
 
   @IsString()
-  @IsNotEmpty()
   description: string;
 
   @IsString()
   @MinLength(3)
   @MaxLength(50)
-  @Matches(/^[a-zA-Z0-9\s]+$/, {
+  @Matches(/^[A-Za-z0-9-]+$/, {
     message: 'SKU must contain only alphanumaric chars and dashes',
   })
   sku: string;
@@ -31,7 +30,7 @@ export class CreateProductDto {
   price: number;
 
   @IsString()
-  @MinLength(4)
+  @MinLength(3)
   @MaxLength(3)
   @IsOptional()
   currency?: string = 'USD';
