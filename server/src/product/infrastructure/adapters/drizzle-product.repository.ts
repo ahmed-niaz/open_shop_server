@@ -14,7 +14,7 @@ import { and, eq, gte, lte, SQL } from 'drizzle-orm';
 
 @Injectable()
 export class DrizzleProductRepository implements ProductRepositoryPort {
-  constructor(@Inject(DRIZZLE) private readonly db: DrizzleDB) {}
+  constructor(@Inject(DRIZZLE) private readonly db: DrizzleDB) { }
 
   // SAVE THE PROUDCTS
   async save(product: Product): Promise<void> {
@@ -42,6 +42,7 @@ export class DrizzleProductRepository implements ProductRepositoryPort {
       });
   }
 
+  // FIND THE PROUDCTS BY ID
   async findById(id: ProudctId): Promise<Product | null> {
     const rows = await this.db
       .select()
@@ -58,6 +59,38 @@ export class DrizzleProductRepository implements ProductRepositoryPort {
     return DrizzleProductRepository.toDomian(row);
   }
 
+  // FIND THE PROUDCTS BY SKU
+  async findBySku(sku: SKU): Promise<Product | null> {
+    const rows = await this.db
+      .select()
+      .from(productsSchema)
+      .where(eq(productsSchema.sku, sku.getValue()))
+      .limit(1);
+
+    if (rows.length === 0) {
+      return null;
+    }
+
+    return DrizzleProductRepository.toDomian(rows[0]);
+  }
+
+  // FIND THE PROUDCTS BY NAME
+  async findByName(name: string): Promise<Product | null> {
+    const rows = await this.db
+      .select()
+      .from(productsSchema)
+      .where(eq(productsSchema.name, name))
+      .limit(1);
+
+    if (rows.length === 0) {
+      return null;
+    }
+
+    return DrizzleProductRepository.toDomian(rows[0]);
+  }
+
+    
+  // FIND ALL THE PROUDCTS WITH FILTERS
   async findAll(filters: ProductFilters): Promise<Product[]> {
     const conditions: SQL[] = [];
 
