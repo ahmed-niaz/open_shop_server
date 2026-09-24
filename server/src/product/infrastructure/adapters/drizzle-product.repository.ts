@@ -121,6 +121,14 @@ export class DrizzleProductRepository implements ProductRepositoryPort {
     return productRows.map((row) => DrizzleProductRepository.toDomian(row));
   }
 
+
+ async delete(id: ProudctId): Promise<void> {
+    await this.db
+      .delete(productsSchema)
+      .where(eq(productsSchema.id, id.getValue()))
+      .execute();
+  }
+
   // drizzle type safety
   private static toPersistence(
     product: Product,

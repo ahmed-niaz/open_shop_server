@@ -8,7 +8,7 @@ import { SKU } from '../../../domain/value-objects/sku.vo.js';
 import { ApplicationException, ApplicationExceptionCode } from '../../../../shared/domain/exceptions/application.exception.js';
 
 @CommandHandler(CreateProductCommand)
-export class CreateProductHandler implements ICommandHandler<CreateProductCommand> {
+export class CreateProductHandler implements ICommandHandler<CreateProductCommand, void> {
   constructor(
     @Inject(PRODUCT_REPOSITORY)
     private readonly productRepository: ProductRepositoryPort,

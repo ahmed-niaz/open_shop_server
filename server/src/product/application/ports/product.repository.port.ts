@@ -19,4 +19,5 @@ export interface ProductRepositoryPort {
   findByName(name: string): Promise<Product | null>;
   // FIND ALL THE PROUDCTS WITH FILTERS
   findAll(filters: ProductFilters): Promise<Product[]>;
+  delete(id:ProudctId): Promise<void>;
 }
