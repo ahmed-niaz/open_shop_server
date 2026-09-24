@@ -1,3 +1,5 @@
+import { DomainException } from "../exceptions/domain.exception.js";
+
 export class Money {
   // do not expose entarnal properties - make private
   private constructor(
@@ -7,7 +9,7 @@ export class Money {
 
   static create(amount: number, currency: string = 'USD'): Money {
     if (amount < 0) {
-      throw new Error('the ammount of money cannot be negative');
+      throw new DomainException('the amount of money cannot be negative');
     }
 
     const normalized = Math.round((amount * 100) / 100);
