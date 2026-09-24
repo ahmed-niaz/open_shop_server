@@ -1,3 +1,5 @@
+import { DomainException } from "../../../shared/domain/exceptions/domain.exception.js";
+
 export class SKU {
   private static readonly SKU_PATTERN = /^[A-Za-z0-9-]+$/;
   private static readonly MIN_LENGTH = 3;
@@ -14,12 +16,12 @@ export class SKU {
     const trimmed = value.trim();
 
     if (trimmed.length < SKU.MIN_LENGTH || trimmed.length > SKU.MAX_LENGTH) {
-      throw new Error(
-        `SKU must be between ${this.MIN_LENGTH} and ${this.MAX_LENGTH} chars`,
+      throw new DomainException(
+        `SKU must be between ${SKU.MIN_LENGTH} and ${SKU.MAX_LENGTH} chars`,
       );
     }
     if (!SKU.SKU_PATTERN.test(trimmed)) {
-      throw new Error('Invalid SKU format');
+      throw new DomainException('Invalid SKU format');
     }
 
     return new SKU(trimmed.toUpperCase());
