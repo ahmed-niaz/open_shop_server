@@ -18,11 +18,17 @@ import { MongoProductRepository } from './infrastructure/adapters/mongo-product.
     MongoProductRepository,
     {
       provide: PRODUCT_REPOSITORY,
-     useFactory: (configService: ConfigService, mongoRepo: MongoProductRepository, drizzleRepo: DrizzleProductRepository) => {
-        return configService.get<string>('DATABASE') === 'mongodb' ?  mongoRepo : drizzleRepo;
+      useFactory: (
+        configService: ConfigService,
+        mongoRepo: MongoProductRepository,
+        drizzleRepo: DrizzleProductRepository,
+      ) => {
+        return configService.get<string>('DATABASE') === 'mongodb'
+          ? mongoRepo
+          : drizzleRepo;
+      },
+      inject: [ConfigService, MongoProductRepository, DrizzleProductRepository],
     },
-    inject: [ConfigService, MongoProductRepository, DrizzleProductRepository],
-  }
   ],
 })
 export class ProductModule {}

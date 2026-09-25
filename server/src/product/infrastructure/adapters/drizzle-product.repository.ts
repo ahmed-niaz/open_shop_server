@@ -14,7 +14,7 @@ import { and, eq, gte, lte, SQL } from 'drizzle-orm';
 
 @Injectable()
 export class DrizzleProductRepository implements ProductRepositoryPort {
-  constructor(@Inject(DRIZZLE) private readonly db: DrizzleDB) { }
+  constructor(@Inject(DRIZZLE) private readonly db: DrizzleDB) {}
 
   // SAVE THE PROUDCTS
   async save(product: Product): Promise<void> {
@@ -89,7 +89,6 @@ export class DrizzleProductRepository implements ProductRepositoryPort {
     return DrizzleProductRepository.toDomian(rows[0]);
   }
 
-    
   // FIND ALL THE PROUDCTS WITH FILTERS
   async findAll(filters: ProductFilters): Promise<Product[]> {
     const conditions: SQL[] = [];
@@ -121,8 +120,7 @@ export class DrizzleProductRepository implements ProductRepositoryPort {
     return productRows.map((row) => DrizzleProductRepository.toDomian(row));
   }
 
-
- async delete(id: ProudctId): Promise<void> {
+  async delete(id: ProudctId): Promise<void> {
     await this.db
       .delete(productsSchema)
       .where(eq(productsSchema.id, id.getValue()))

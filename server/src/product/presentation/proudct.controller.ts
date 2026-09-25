@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto.js';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateProductCommand } from '../application/use-cases/create-product/create-product.command.js';
@@ -49,18 +58,20 @@ export class ProductController {
   }
 
   @Get(':id')
-  async findOne(@Param('id', new ParseUUIDPipe()) id:string): Promise<ProductResponseDto> {
+  async findOne(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<ProductResponseDto> {
     const product = await this.queryBus.execute<GetProductQuery, Product>(
       new GetProductQuery(id),
     );
     return ProductResponseDto.fromDomain(product);
   }
 
-
   @Delete(':id')
   async remove(@Param('id', new ParseUUIDPipe()) id: string): Promise<void> {
     // Implement the delete logic here
-    await this.commandBus.execute<DeleteProductCommand, void>(new DeleteProductCommand(id));
+    await this.commandBus.execute<DeleteProductCommand, void>(
+      new DeleteProductCommand(id),
+    );
   }
-
 }

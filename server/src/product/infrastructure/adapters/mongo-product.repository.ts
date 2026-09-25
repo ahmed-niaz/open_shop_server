@@ -43,7 +43,7 @@ export class MongoProductRepository implements ProductRepositoryPort {
     );
   }
 
-    // FIND ALL THE PROUDCTS WITH FILTERS
+  // FIND ALL THE PROUDCTS WITH FILTERS
   async findById(id: ProudctId): Promise<Product | null> {
     const doc = await this.collection.findOne({ _id: id.getValue() });
     if (!doc) {
