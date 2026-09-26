@@ -16,6 +16,7 @@ import { ListProductQuery } from '../application/queires/list-product.query.js';
 import { Product } from '../domain/entities/proudct.entity.js';
 import { GetProductQuery } from '../application/queires/get-product.query.js';
 import { DeleteProductCommand } from '../application/use-cases/delete-product/delete-product.command.js';
+
 @Controller('products')
 export class ProductController {
   // dispatch event of prouduct by cqrs.

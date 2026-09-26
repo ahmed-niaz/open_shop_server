@@ -62,68 +62,68 @@ export class Customer extends AggregateRoot {
   }
 
   // Standard camelCase getters
-  get id(): CustomerId {
+  getId(): CustomerId {
     return this._id;
   }
 
-  get email(): Email {
+  getEmail(): Email {
     return this._email;
   }
 
-  get firstName(): string {
+  getFirstName(): string {
     return this._firstName;
   }
 
-  get lastName(): string {
+  getLastName(): string {
     return this._lastName;
   }
 
-  get fullName(): string {
+  getFullName(): string {
     return `${this._firstName} ${this._lastName}`;
   }
 
-  get phoneNumber(): string | null {
+  getPhoneNumber(): string | null {
     return this._phoneNumber;
   }
 
-  get isActive(): boolean {
+  getIsActive(): boolean {
     return this._isActive;
   }
 
-  get createdAt(): Date {
+  getCreatedAt(): Date {
     return this._createdAt;
   }
 
-  get updatedAt(): Date {
+  getUpdatedAt(): Date {
     return this._updatedAt;
   }
 
   // PascalCase aliases for backward compatibility
   get Id(): CustomerId {
-    return this.id;
+    return this.getId();
   }
 
   get Email(): Email {
-    return this.email;
+    return this.getEmail();
   }
 
   get FirstName(): string {
-    return this.firstName;
+    return this.getFirstName();
   }
 
   get LastName(): string {
-    return this.lastName;
+    return this.getLastName();
   }
 
   get FullName(): string {
-    return this.fullName;
+    return this.getFullName();
   }
 
   get PhoneNumber(): string | null {
-    return this.phoneNumber;
+    return this.getPhoneNumber();
   }
 
   get IsActive(): boolean {
-    return this.isActive;
+    return this.getIsActive();
   }
 }
