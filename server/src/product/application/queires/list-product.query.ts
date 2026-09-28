@@ -6,4 +6,3 @@ export class ListProductQuery {
     public readonly maxPrice?: number,
   ) {}
 }
-
