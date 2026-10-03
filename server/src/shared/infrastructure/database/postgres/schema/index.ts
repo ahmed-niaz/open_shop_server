@@ -4,4 +4,6 @@ export {
   ordersSchema,
   orderItemsSchema,
   orderStatusEnum,
+  ordersRelations,
+  orderItemsRelations,
 } from './order.schema.js';

@@ -8,6 +8,7 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 import { customersSchema, productsSchema } from './index.js';
+import { relations } from 'drizzle-orm';
 
 export const orderStatusEnum = pgEnum('order_status', [
   'pending',
@@ -66,3 +67,15 @@ export const orderItemsSchema = pgTable('order_items', {
     .default('USD'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
 });
+
+// drizzle order relationships
+export const ordersRelations = relations(ordersSchema, ({ many }) => ({
+  items: many(orderItemsSchema),
+}));
+
+export const orderItemsRelations = relations(orderItemsSchema, ({ one }) => ({
+  order: one(ordersSchema, {
+    fields: [orderItemsSchema.orderId],
+    references: [ordersSchema.id],
+  }),
+}));

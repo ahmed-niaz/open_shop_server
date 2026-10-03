@@ -85,23 +85,58 @@ export class DrizzleOrderRepository implements OrderRepositoryPort {
   }
 
   async findById(id: OrderId): Promise<Order | null> {
-    const orderRow = await this.db
-      .select()
-      .from(ordersSchema)
-      .where(eq(ordersSchema.id, id.getValue()));
+    // const orderRow = await this.db
+    //   .select()
+    //   .from(ordersSchema)
+    //   .where(eq(ordersSchema.id, id.getValue()));
 
-    if (orderRow.length === 0) return null;
+    // if (orderRow.length === 0) return null;
 
-    const itemRows = await this.db
-      .select()
-      .from(orderItemsSchema)
-      .where(eq(orderItemsSchema.orderId, id.getValue()));
+    // const itemRows = await this.db
+    //   .select()
+    //   .from(orderItemsSchema)
+    //   .where(eq(orderItemsSchema.orderId, id.getValue()));
 
-    return DrizzleOrderRepository.toDomain(orderRow[0], itemRows);
+    // todo: another approch.
+    const result = await this.db.query.ordersSchema.findFirst({
+      where: eq(ordersSchema.id, id.getValue()),
+      with: {
+        items: true,
+      },
+    });
+
+    if (!result) return null;
+
+    return DrizzleOrderRepository.toDomain(result, result.items);
   }
 
-  async findByCustomerId(customerId: string): Promise<any> {}
-  async delete(id: OrderId): Promise<any> {}
+  async findByCustomerId(customerId: string): Promise<Order[]> {
+    const result = await this.db.query.ordersSchema.findMany({
+      where: eq(ordersSchema.customerId, customerId),
+      with: {
+        items: true,
+      },
+    });
+    return result.map((row) => DrizzleOrderRepository.toDomain(row, row.items));
+  }
+
+  async findAll(): Promise<Order[]> {
+    const result = await this.db.query.ordersSchema.findMany({
+      with: {
+        items: true,
+      },
+    });
+    return result.map((row) => DrizzleOrderRepository.toDomain(row, row.items));
+  }
+
+  async delete(id: OrderId): Promise<void> {
+    await this.db.transaction(async (trx) => {
+      await trx
+        .delete(orderItemsSchema)
+        .where(eq(orderItemsSchema.orderId, id.getValue()));
+      await trx.delete(ordersSchema).where(eq(ordersSchema.id, id.getValue()));
+    });
+  }
 
   private static toPersistence(order: Order): typeof ordersSchema.$inferInsert {
     const totalAmount = order.getTotalAmount();
@@ -185,8 +220,6 @@ export class DrizzleOrderRepository implements OrderRepositoryPort {
       updatedAt: orderRow.updatedAt,
     });
   }
-
-  // end
 }
 
 // toPersistence(): Converts Domain Entity ➔ DB Row (Used when saving/writing data).
