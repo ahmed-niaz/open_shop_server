@@ -1,4 +1,5 @@
 import { AggregateRoot } from '../../../shared/domain/aggregate-root.js';
+import { CustomerRegisterEvent } from '../events/customer-register.event.js';
 import { CustomerId } from '../value-objects/customer-id.vo.js';
 import { Email } from '../value-objects/email.vo.js';
 
@@ -44,7 +45,7 @@ export class Customer extends AggregateRoot {
     const id = new CustomerId();
     const now = new Date();
 
-    return new Customer({
+    const customer = new Customer({
       id,
       email,
       firstName,
@@ -54,6 +55,13 @@ export class Customer extends AggregateRoot {
       createdAt: now,
       updatedAt: now,
     });
+
+    // todo: Out of the box, to apply the CQRS pattern, we can emit a domain event when a new customer is registered. This event can be handled by other parts of the system to perform actions like sending a welcome email or logging the registration.
+    customer.apply(
+      new CustomerRegisterEvent(id.getValue(), email.getValue(), firstName),
+    );
+
+    return customer;
   }
 
   // Reconstitute method for restoring entity from persistence
