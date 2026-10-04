@@ -10,12 +10,14 @@ import { PRODUCT } from './application/ports/product.port.js';
 import { ProductAdapter } from './infrastructure/adapters/product.adapter.js';
 import { CustomerModule } from '../customers/customer.module.js';
 import { ProductModule } from '../product/proudct.module.js';
+import { EventHandlers } from './application/events/index.js';
 
 @Module({
   imports: [CqrsModule, CustomerModule, ProductModule],
   controllers: [OrderController],
   providers: [
     ...CommandHandlers,
+    ...EventHandlers,
     {
       provide: ORDER_REPOSITORY,
       useClass: DrizzleOrderRepository,
