@@ -4,7 +4,7 @@ import {
   PRODUCT_REPOSITORY,
   ProductRepositoryPort,
 } from '../../ports/product.repository.port.js';
-import { ProudctId } from '../../../domain/value-objects/product-id.vo.js';
+import { ProductId } from '../../../domain/value-objects/product-id.vo.js';
 import {
   ApplicationException,
   ApplicationExceptionCode,
@@ -18,7 +18,7 @@ export class DeleteProductHandler implements ICommandHandler<DeleteProductComman
     private readonly productRepository: ProductRepositoryPort,
   ) {}
   async execute(command: DeleteProductCommand): Promise<void> {
-    const productID = new ProudctId(command.productId);
+    const productID = new ProductId(command.productId);
 
     // Here you would typically fetch the product from a database or another source.
     // For demonstration purposes, let's assume we have a method to get the product by ID.

@@ -7,7 +7,7 @@ import { Product } from '../../domain/entities/proudct.entity.js';
 import { DRIZZLE } from '../../../shared/infrastructure/database/postgres/drizzle.provider.js';
 import type { DrizzleDB } from '../../../shared/infrastructure/database/postgres/drizzle.provider.js';
 import { productsSchema } from '../../../shared/infrastructure/database/postgres/schema/products.schema.js';
-import { ProudctId } from '../../domain/value-objects/product-id.vo.js';
+import { ProductId } from '../../domain/value-objects/product-id.vo.js';
 import { SKU } from '../../domain/value-objects/sku.vo.js';
 import { Money } from '../../../shared/domain/value-objects/money.vo.js';
 import { and, eq, gte, lte, SQL } from 'drizzle-orm';
@@ -43,7 +43,7 @@ export class DrizzleProductRepository implements ProductRepositoryPort {
   }
 
   // FIND THE PROUDCTS BY ID
-  async findById(id: ProudctId): Promise<Product | null> {
+  async findById(id: ProductId): Promise<Product | null> {
     const rows = await this.db
       .select()
       .from(productsSchema)
@@ -120,7 +120,7 @@ export class DrizzleProductRepository implements ProductRepositoryPort {
     return productRows.map((row) => DrizzleProductRepository.toDomian(row));
   }
 
-  async delete(id: ProudctId): Promise<void> {
+  async delete(id: ProductId): Promise<void> {
     await this.db
       .delete(productsSchema)
       .where(eq(productsSchema.id, id.getValue()))
@@ -148,7 +148,7 @@ export class DrizzleProductRepository implements ProductRepositoryPort {
 
   private static toDomian(row: typeof productsSchema.$inferSelect): Product {
     return Product.reconstitute({
-      id: new ProudctId(row.id),
+      id: new ProductId(row.id),
       name: row.name,
       description: row.description,
       sku: SKU.create(row.sku),

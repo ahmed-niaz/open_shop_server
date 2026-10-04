@@ -1,11 +1,11 @@
 import { AggregateRoot } from '../../../shared/domain/aggregate-root.js';
 import { DomainException } from '../../../shared/domain/exceptions/domain.exception.js';
 import { Money } from '../../../shared/domain/value-objects/money.vo.js';
-import { ProudctId } from '../value-objects/product-id.vo.js';
+import { ProductId } from '../value-objects/product-id.vo.js';
 import { SKU } from '../value-objects/sku.vo.js';
 
-export interface ProudctProps {
-  id: ProudctId;
+export interface ProductProps {
+  id: ProductId;
   name: string;
   price: Money;
   description: string;
@@ -17,8 +17,10 @@ export interface ProudctProps {
   updatedAt: Date;
 }
 
+export type ProudctProps = ProductProps;
+
 export class Product extends AggregateRoot {
-  private _id: ProudctId;
+  private _id: ProductId;
   private _name: string;
   private _price: Money;
   private _description: string;
@@ -29,7 +31,7 @@ export class Product extends AggregateRoot {
   private _createdAt: Date;
   private _updatedAt: Date;
 
-  private constructor(props: ProudctProps) {
+  private constructor(props: ProductProps) {
     super();
     this._id = props.id;
     this._name = props.name;
@@ -58,7 +60,7 @@ export class Product extends AggregateRoot {
     const now = new Date();
 
     return new Product({
-      id: new ProudctId(),
+      id: new ProductId(),
       name,
       description,
       sku: SKU.create(sku),
@@ -71,7 +73,7 @@ export class Product extends AggregateRoot {
     });
   }
 
-  get id() {
+  get id(): ProductId {
     return this._id;
   }
   get name() {
@@ -104,7 +106,7 @@ export class Product extends AggregateRoot {
   }
 
   //   method reconstitue
-  static reconstitute(props: ProudctProps): Product {
+  static reconstitute(props: ProductProps): Product {
     return new Product(props);
   }
 

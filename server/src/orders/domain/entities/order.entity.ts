@@ -1,6 +1,7 @@
 import { AggregateRoot } from '../../../shared/domain/aggregate-root.js';
 import { DomainException } from '../../../shared/domain/exceptions/domain.exception.js';
 import { Money } from '../../../shared/domain/value-objects/money.vo.js';
+import { OrderPlacedEvent } from '../events/order-place.events.js';
 import { OrderId } from '../value-objects/order-id.vo.js';
 import { OrderStatus } from '../value-objects/order-status.vo.js';
 import { ShippingAddress } from '../value-objects/shipping-address.vo.js';
@@ -66,11 +67,18 @@ export class Order extends AggregateRoot {
       updatedAt: now,
     });
 
+    // exending the aggregate root from the nest js cqrs, all the enitites have the apply method which allow us to send publish events  direclty inside of our entites inside of our domain model.
+    order.apply(new OrderPlacedEvent(id.getValue(), customerId));
+
     return order;
   }
 
   static reconstitute(props: OrderProps): Order {
     return new Order(props);
+  }
+
+  getItemCount(): number {
+    return this._items.reduce((sum, item) => sum + item.quantity, 0);
   }
 
   getTotalAmount(): Money {
