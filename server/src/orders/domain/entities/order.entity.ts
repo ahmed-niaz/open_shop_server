@@ -1,3 +1,4 @@
+import { sum } from 'drizzle-orm';
 import { AggregateRoot } from '../../../shared/domain/aggregate-root.js';
 import { DomainException } from '../../../shared/domain/exceptions/domain.exception.js';
 import { Money } from '../../../shared/domain/value-objects/money.vo.js';
@@ -71,6 +72,10 @@ export class Order extends AggregateRoot {
 
   static reconstitute(props: OrderProps): Order {
     return new Order(props);
+  }
+
+  getItemCount(): number {
+    return this._items.reduce((sum, item) => sum + item.quantity, 0);
   }
 
   getTotalAmount(): Money {
