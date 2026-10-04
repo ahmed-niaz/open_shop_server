@@ -6,7 +6,7 @@ import {
 } from '../../application/ports/product.repository.port.js';
 import { MONGO_DB } from '../../../shared/infrastructure/database/mongodb/mongo.provider.js';
 import { Product } from '../../domain/entities/proudct.entity.js';
-import { ProudctId } from '../../domain/value-objects/product-id.vo.js';
+import { ProductId } from '../../domain/value-objects/product-id.vo.js';
 import { SKU } from '../../domain/value-objects/sku.vo.js';
 import { Money } from '../../../shared/domain/value-objects/money.vo.js';
 
@@ -44,7 +44,7 @@ export class MongoProductRepository implements ProductRepositoryPort {
   }
 
   // FIND ALL THE PROUDCTS WITH FILTERS
-  async findById(id: ProudctId): Promise<Product | null> {
+  async findById(id: ProductId): Promise<Product | null> {
     const doc = await this.collection.findOne({ _id: id.getValue() });
     if (!doc) {
       return null;
@@ -90,7 +90,7 @@ export class MongoProductRepository implements ProductRepositoryPort {
     return docs.map((doc) => MongoProductRepository.toDomain(doc));
   }
 
-  async delete(id: ProudctId): Promise<void> {
+  async delete(id: ProductId): Promise<void> {
     await this.collection.deleteOne({ _id: id.getValue() });
   }
 
@@ -112,7 +112,7 @@ export class MongoProductRepository implements ProductRepositoryPort {
 
   private static toDomain(doc: ProductDocument): Product {
     return Product.reconstitute({
-      id: new ProudctId(doc._id),
+      id: new ProductId(doc._id),
       name: doc.name,
       description: doc.description,
       sku: SKU.create(doc.sku),

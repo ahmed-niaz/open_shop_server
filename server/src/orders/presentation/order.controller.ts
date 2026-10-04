@@ -17,8 +17,8 @@ export class OrderController {
       new PlaceOrderCommand(
         dto.customerId,
         dto.items.map((item) => ({
-          proudctId: item.productId,
-          proudctName: item.productName,
+          productId: item.productId,
+          productName: item.productName,
           unitPrice: item.unitPrice,
           currency: item.currency ?? 'USD',
           qunatity: item.quantity,

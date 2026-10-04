@@ -3,8 +3,8 @@ import { Order } from '../../domain/entities/order.entity.js';
 
 export class OrderItemsResponseDto {
   id: string;
-  proudctId: string;
-  proudctName: string;
+  productId: string;
+  productName: string;
   unitPrice: number;
   currency: string;
   qunatity: number;
@@ -16,8 +16,8 @@ export class OrderItemsResponseDto {
 
     // Standard property assignments
     dto.id = orderItem.getId().getValue();
-    dto.proudctId = orderItem.productId;
-    dto.proudctName = orderItem.productName;
+    dto.productId = orderItem.productId;
+    dto.productName = orderItem.productName;
     dto.unitPrice = orderItem.unitPrice.getAmount();
     dto.currency = orderItem.unitPrice.getCurrency();
     dto.qunatity = orderItem.quantity;

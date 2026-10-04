@@ -2,7 +2,6 @@ import {
   IsArray,
   IsNumber,
   IsString,
-  IsUUID,
   MaxLength,
   Min,
   MinLength,
@@ -11,7 +10,8 @@ import {
 import { Type } from 'class-transformer';
 
 export class CreateOrderItemDto {
-  @IsUUID()
+  @IsString()
+  @MinLength(1)
   productId: string;
 
   @IsString()
@@ -34,7 +34,8 @@ export class CreateOrderItemDto {
 }
 
 export class CreateOrderDto {
-  @IsUUID()
+  @IsString()
+  @MinLength(1)
   customerId: string;
 
   @IsArray()
