@@ -14,14 +14,15 @@ export class OrderItemsResponseDto {
   static fromDomain(orderItem: OrderItem): OrderItemsResponseDto {
     const dto = new OrderItemsResponseDto();
 
+    // Standard property assignments
     dto.id = orderItem.getId().getValue();
-    ((dto.proudctId = orderItem.productId),
-      (dto.proudctName = orderItem.productName),
-      (dto.unitPrice = orderItem.unitPrice.getAmount()),
-      (dto.currency = orderItem.unitPrice.getCurrency()),
-      (dto.qunatity = orderItem.quantity),
-      (dto.discount = orderItem.discount?.getAmount() ?? null),
-      (dto.subtotal = orderItem.getSubtotal().getAmount()));
+    dto.proudctId = orderItem.productId;
+    dto.proudctName = orderItem.productName;
+    dto.unitPrice = orderItem.unitPrice.getAmount();
+    dto.currency = orderItem.unitPrice.getCurrency();
+    dto.qunatity = orderItem.quantity;
+    dto.discount = orderItem.discount?.getAmount() ?? null;
+    dto.subtotal = orderItem.getSubtotal().getAmount();
     return dto;
   }
 }
@@ -48,7 +49,8 @@ export class OrderResponseDto {
     const dto = new OrderResponseDto();
     const total = order.getTotalAmount();
 
-    ((dto.id = order.id.getValue()), (dto.customerId = order.customerId));
+    dto.id = order.id.getValue();
+    dto.customerId = order.customerId;
     dto.status = order.status.getValue();
     dto.items = order.items.map(OrderItemsResponseDto.fromDomain);
     dto.itemCount = order.getItemCount();
