@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
@@ -14,6 +15,7 @@ import { OrderResponseDto } from './dto/order-response.dto.js';
 import { ListOrdersQuery } from '../application/queires/list-orders.query.js';
 import { Order } from '../domain/entities/order.entity.js';
 import { GetOrderQuery } from '../application/queires/get-order.query.js';
+import { ConfirmOrderCommand } from '../application/use-cases/confirm-order/confirm-order.command.js';
 
 @Controller('orders')
 export class OrderController {
@@ -65,5 +67,12 @@ export class OrderController {
     );
 
     return OrderResponseDto.fromDomain(order);
+  }
+
+  @Patch(':id/confirm')
+  async confirm(@Param('id', new ParseUUIDPipe()) id: string): Promise<void> {
+    await this.commandBus.execute<ConfirmOrderCommand>(
+      new ConfirmOrderCommand(id),
+    );
   }
 }
