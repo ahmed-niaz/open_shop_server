@@ -111,13 +111,25 @@ export class DrizzleOrderRepository implements OrderRepositoryPort {
   }
 
   async findByCustomerId(customerId: string): Promise<Order[]> {
-    const result = await this.db.query.ordersSchema.findMany({
-      where: eq(ordersSchema.customerId, customerId),
-      with: {
-        items: true,
-      },
-    });
-    return result.map((row) => DrizzleOrderRepository.toDomain(row, row.items));
+    const uuidRegex =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(customerId)) {
+      return [];
+    }
+
+    try {
+      const result = await this.db.query.ordersSchema.findMany({
+        where: eq(ordersSchema.customerId, customerId),
+        with: {
+          items: true,
+        },
+      });
+      return result.map((row) =>
+        DrizzleOrderRepository.toDomain(row, row.items),
+      );
+    } catch {
+      return [];
+    }
   }
 
   async findAll(): Promise<Order[]> {

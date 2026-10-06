@@ -3,7 +3,6 @@ import { DomainException } from '../../../shared/domain/exceptions/domain.except
 export type OrderStatusValue =
   | 'pending'
   | 'confirmed'
-  | 'processing'
   | 'shipped'
   | 'delivered'
   | 'cancelled'
@@ -17,8 +16,7 @@ export class OrderStatus {
     OrderStatusValue[]
   > = {
     pending: ['confirmed', 'cancelled', 'failed'],
-    confirmed: ['processing', 'cancelled'],
-    processing: ['shipped', 'cancelled'],
+    confirmed: ['shipped', 'cancelled'],
     shipped: ['delivered', 'returned'], // returned = failed delivery / refused
     delivered: ['returned'],
     cancelled: ['refunded'], // only if already paid
@@ -36,9 +34,7 @@ export class OrderStatus {
   static confirmed(): OrderStatus {
     return new OrderStatus('confirmed');
   }
-  static processing(): OrderStatus {
-    return new OrderStatus('processing');
-  }
+
   static shipped(): OrderStatus {
     return new OrderStatus('shipped');
   }
@@ -63,7 +59,6 @@ export class OrderStatus {
     const valid: OrderStatusValue[] = [
       'pending',
       'confirmed',
-      'processing',
       'shipped',
       'delivered',
       'cancelled',
@@ -87,9 +82,6 @@ export class OrderStatus {
 
   canConfirm(): boolean {
     return this.canTransitionTo('confirmed');
-  }
-  canProcess(): boolean {
-    return this.canTransitionTo('processing');
   }
   canShip(): boolean {
     return this.canTransitionTo('shipped');
@@ -118,9 +110,6 @@ export class OrderStatus {
     return this.transitionTo('confirmed');
   }
 
-  process(): OrderStatus {
-    return this.transitionTo('processing');
-  }
   ship(): OrderStatus {
     return this.transitionTo('shipped');
   }
