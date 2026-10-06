@@ -10,7 +10,7 @@ import { PRODUCT } from './application/ports/product.port.js';
 import { ProductAdapter } from './infrastructure/adapters/product.adapter.js';
 import { CustomerModule } from '../customers/customer.module.js';
 import { ProductModule } from '../product/proudct.module.js';
-import { EventHandlers } from './application/events/index.js';
+import { EventHandlers } from './application/notification-events/index.js';
 import { QueryHandlers } from './application/queires/handlers/index.js';
 
 @Module({

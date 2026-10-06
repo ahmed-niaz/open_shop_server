@@ -1,7 +1,10 @@
-import { EventsHandler, IEventHandler } from "@nestjs/cqrs";
-import { OrderShippedEvent } from "../../domain/events/order-shipped.event.js";
-import { NOTIFICATION_SERVICE, NotificationPort } from "../../../customers/application/ports/notification.port.js";
-import { Inject } from "@nestjs/common";
+import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
+import { OrderShippedEvent } from '../../domain/events/order-shipped.event.js';
+import {
+  NOTIFICATION_SERVICE,
+  NotificationPort,
+} from '../../../customers/application/ports/notification.port.js';
+import { Inject } from '@nestjs/common';
 
 @EventsHandler(OrderShippedEvent)
 export class OrderShippedHandler implements IEventHandler<OrderShippedEvent> {

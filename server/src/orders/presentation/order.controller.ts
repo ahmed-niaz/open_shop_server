@@ -18,6 +18,7 @@ import { GetOrderQuery } from '../application/queires/get-order.query.js';
 import { ConfirmOrderCommand } from '../application/use-cases/confirm-order/confirm-order.command.js';
 import { ShipOrderDto } from './dto/ship-order.dto.js';
 import { ShipOrderCommand } from '../application/use-cases/ship-order/ship-order.command.js';
+import { DeliverOrderCommand } from '../application/use-cases/deliver-order/deliver-order.command.js';
 
 @Controller('orders')
 export class OrderController {
@@ -85,6 +86,13 @@ export class OrderController {
   ): Promise<void> {
     await this.commandBus.execute<ShipOrderCommand>(
       new ShipOrderCommand(id, dto.trackingNumber),
+    );
+  }
+
+  @Patch(':id/deliver')
+  async deliver(@Param('id', new ParseUUIDPipe()) id: string): Promise<void> {
+    await this.commandBus.execute<DeliverOrderCommand>(
+      new DeliverOrderCommand(id),
     );
   }
 }
