@@ -1,3 +1,4 @@
+import { OrderCanceledHandler } from './order-cancel.handler.js';
 import { OrderConfirmedHandler } from './order-confirm.handler.js';
 import { OrderDeliverdHandler } from './order-deliver.handler.js';
 import { OrderPlacedHandler } from './order-placed.handler.js';
@@ -8,4 +9,5 @@ export const EventHandlers = [
   OrderConfirmedHandler,
   OrderShippedHandler,
   OrderDeliverdHandler,
+  OrderCanceledHandler,
 ];

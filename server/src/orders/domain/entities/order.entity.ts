@@ -1,6 +1,7 @@
 import { AggregateRoot } from '../../../shared/domain/aggregate-root.js';
 import { DomainException } from '../../../shared/domain/exceptions/domain.exception.js';
 import { Money } from '../../../shared/domain/value-objects/money.vo.js';
+import { CancelOrderEvent } from '../events/order-cancel.event.js';
 import { OrderConfirmEvent } from '../events/order-confirmed.event.js';
 import { OrderDeliverdEvent } from '../events/order-deliver.event.js';
 import { OrderPlacedEvent } from '../events/order-place.events.js';
@@ -173,5 +174,16 @@ export class Order extends AggregateRoot {
     this._status = this._status.deliver();
     this._updatedAt = new Date();
     this.apply(new OrderDeliverdEvent(this._id.getValue(), this._customerId));
+  }
+
+  cencel(reason: string) {
+    if (!reason || reason.trim().length === 0) {
+      throw new DomainException(`a cencalation reason is required`);
+    }
+
+    this._status = this._status.cancel();
+    this._updatedAt = new Date();
+
+    this.apply(new CancelOrderEvent(this._id.getValue(), this._customerId));
   }
 }
