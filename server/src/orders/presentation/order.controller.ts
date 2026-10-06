@@ -16,6 +16,8 @@ import { ListOrdersQuery } from '../application/queires/list-orders.query.js';
 import { Order } from '../domain/entities/order.entity.js';
 import { GetOrderQuery } from '../application/queires/get-order.query.js';
 import { ConfirmOrderCommand } from '../application/use-cases/confirm-order/confirm-order.command.js';
+import { ShipOrderDto } from './dto/ship-order.dto.js';
+import { ShipOrderCommand } from '../application/use-cases/ship-order/ship-order.command.js';
 
 @Controller('orders')
 export class OrderController {
@@ -73,6 +75,16 @@ export class OrderController {
   async confirm(@Param('id', new ParseUUIDPipe()) id: string): Promise<void> {
     await this.commandBus.execute<ConfirmOrderCommand>(
       new ConfirmOrderCommand(id),
+    );
+  }
+
+  @Patch(':id/ship')
+  async ship(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() dto: ShipOrderDto,
+  ): Promise<void> {
+    await this.commandBus.execute<ShipOrderCommand>(
+      new ShipOrderCommand(id, dto.trackingNumber),
     );
   }
 }
