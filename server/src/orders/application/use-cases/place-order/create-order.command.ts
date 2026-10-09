@@ -6,6 +6,7 @@ export interface CreateOrderItemDto {
   unitPrice: number;
   currency: string;
   qunatity: number;
+  discount?: number;
 }
 
 export class PlaceOrderCommand {
