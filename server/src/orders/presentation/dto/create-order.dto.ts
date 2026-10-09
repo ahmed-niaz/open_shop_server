@@ -1,6 +1,7 @@
 import {
   IsArray,
   IsNumber,
+  IsOptional,
   IsString,
   MaxLength,
   Min,
@@ -31,6 +32,11 @@ export class CreateOrderItemDto {
   @IsNumber()
   @Min(1)
   quantity: number;
+
+  @IsNumber()
+  @Min(1)
+  @IsOptional()
+  discount: number;
 }
 
 export class CreateOrderDto {
