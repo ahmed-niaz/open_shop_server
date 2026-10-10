@@ -6,6 +6,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { ProductModule } from './product/proudct.module.js';
 import { CustomerModule } from './customers/customer.module.js';
 import { OrderModule } from './orders/order.module.js';
+import { PaymentModule } from './payment/payment.module.js';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { OrderModule } from './orders/order.module.js';
     ProductModule,
     CustomerModule,
     OrderModule,
+    PaymentModule,
   ],
   controllers: [],
   providers: [],
