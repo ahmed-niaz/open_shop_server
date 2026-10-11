@@ -16,6 +16,7 @@ import { QueryHandlers } from './application/queires/handlers/index.js';
 @Module({
   imports: [CqrsModule, CustomerModule, ProductModule],
   controllers: [OrderController],
+  exports: [ORDER_REPOSITORY],
   providers: [
     ...CommandHandlers,
     ...EventHandlers,

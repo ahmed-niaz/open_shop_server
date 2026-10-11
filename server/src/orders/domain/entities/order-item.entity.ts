@@ -52,6 +52,15 @@ export class OrderItem extends Entity {
     return new OrderItem(props);
   }
 
+  getEffectiveUnitPrice(): Money {
+    //  current subtotal
+    const subtotal = this.getSubtotal();
+    return Money.fromCents(
+      Math.round(subtotal.toCents() / this._quantity),
+      subtotal.getCurrency(),
+    );
+  }
+
   updateQuantity(quantity: number): void {
     if (quantity <= 0) {
       throw new DomainException('Quantity must be greater than zero');
