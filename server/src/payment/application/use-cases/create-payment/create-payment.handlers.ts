@@ -1,21 +1,25 @@
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { CreatePaymentCommand } from './create-payment.command.js';
-import { UniqueId } from '../../../shared/domain/value-objects/unique-id.vo.js';
+
 import { Inject } from '@nestjs/common';
 import {
   PAYMENT_REPOSITORY,
   PaymentRepository,
-} from '../port/payment-repository.port.js';
+} from '../../port/payment-repository.port.js';
 import {
-  ApplicationException,
-  ApplicationExceptionCode,
-} from '../../../shared/domain/exceptions/application.exception.js';
-import { ORDER_PRICING, OrderPricingPort } from '../port/order-pricing.port.js';
-import { Payment } from '../../domain/entities/payment.entity.js';
+  ORDER_PRICING,
+  OrderPricingPort,
+} from '../../port/order-pricing.port.js';
 import {
   PAYMENT_GATEWAY,
   PaymentGatewayPort,
-} from '../../ports/payment-gateway.port.js';
+} from '../../../ports/payment-gateway.port.js';
+import { UniqueId } from '../../../../shared/domain/value-objects/unique-id.vo.js';
+import {
+  ApplicationException,
+  ApplicationExceptionCode,
+} from '../../../../shared/domain/exceptions/application.exception.js';
+import { Payment } from '../../../domain/entities/payment.entity.js';
 
 interface CreatePaymentResponse {
   checkoutUrl: string;

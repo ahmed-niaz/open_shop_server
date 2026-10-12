@@ -37,6 +37,20 @@ export class PaymentStatus {
     return this.value === PaymentStatusLog.Succeeded;
   }
 
+  isProcessing(): boolean {
+    return this.value === PaymentStatusLog.Processing;
+  }
+
+  transitionToSucceeded(): PaymentStatus {
+    if (!this.isProcessing) {
+      throw new DomainException(
+        `Cannot transition to succeeded from ${this.value}.Only processing payments can succeed`,
+      );
+    }
+
+    return PaymentStatus.succeeded();
+  }
+
   getValue(): PaymentStatusLog {
     return this.value;
   }

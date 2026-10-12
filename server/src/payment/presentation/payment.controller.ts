@@ -9,11 +9,12 @@ import {
 } from '@nestjs/common';
 import { CreatePaymentDto } from './dto/create-payment.dto.js';
 import { CommandBus } from '@nestjs/cqrs';
-import { CreatePaymentCommand } from '../application/use-cases/create-payment.command.js';
+import { CreatePaymentCommand } from '../application/use-cases/create-payment/create-payment.command.js';
 import {
   PAYMENT_GATEWAY,
   PaymentGatewayPort,
 } from '../ports/payment-gateway.port.js';
+import { ConfirmPaymentCommand } from '../application/use-cases/confirm-payment/confirm-payment.command.js';
 
 @Controller('payments')
 export class PaymentController {
@@ -40,5 +41,26 @@ export class PaymentController {
   ) {
     const event = this.paymentGateway.constructWebhookEvent(payload, signature);
     this.logger.log('got webhook event for stipe', event);
+
+    switch (event.type) {
+      case 'checkout.session.completed': {
+        const session = event.data.object;
+        const paymentId = session.metadata?.paymentId;
+        const gatewayTransactionId =
+          typeof session.payment_intent === 'string'
+            ? session.payment_intent
+            : session.payment_intent?.id;
+
+        if (paymentId && gatewayTransactionId) {
+          await this.commndBus.execute(
+            new ConfirmPaymentCommand(paymentId, gatewayTransactionId),
+          );
+        }
+        break;
+      }
+
+      default:
+        break;
+    }
   }
 }
