@@ -7,3 +7,10 @@ export {
   ordersRelations,
   orderItemsRelations,
 } from './order.schema.js';
+
+export {
+  paymentsSchema,
+  PaymentStatusSchemaEnum,
+  paymentStatusEnum,
+  paymentsRelations,
+} from './payment.schema.js';
