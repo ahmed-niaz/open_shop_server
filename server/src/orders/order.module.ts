@@ -12,6 +12,7 @@ import { CustomerModule } from '../customers/customer.module.js';
 import { ProductModule } from '../product/proudct.module.js';
 import { EventHandlers } from './application/notification-events/index.js';
 import { QueryHandlers } from './application/queires/handlers/index.js';
+import { OrderFulfilmentSaga } from './application/sagas/order-fulfilment.saga.js';
 
 @Module({
   imports: [CqrsModule, CustomerModule, ProductModule],
@@ -21,6 +22,7 @@ import { QueryHandlers } from './application/queires/handlers/index.js';
     ...CommandHandlers,
     ...EventHandlers,
     ...QueryHandlers,
+    OrderFulfilmentSaga,
     {
       provide: ORDER_REPOSITORY,
       useClass: DrizzleOrderRepository,
