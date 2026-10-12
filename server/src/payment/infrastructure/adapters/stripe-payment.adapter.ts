@@ -55,6 +55,7 @@ export class StripePaymentAdapter implements PaymentGatewayPort {
 
   // construct webhook event method
   constructWebhookEvent(payload: Buffer, signature: string): Stripe.Event {
+    // constructEvent - return us back to the de-srialized event objects raw body
     return this.stripe.webhooks.constructEvent(
       payload,
       signature,
